@@ -6,6 +6,7 @@
  */
 
 #include "i2c.h"
+#include "dma.h"
 
 I2C_HandleTypeDef i2c;
 UART_HandleTypeDef uart;
@@ -18,7 +19,8 @@ void I2C_Config(void) {
 	;
 
 	i2c.Instance = I2C1;
-	i2c.Init.ClockSpeed = 100000;
+	i2c.hdmarx=&i2c_dma;
+	i2c.Init.ClockSpeed = 400000;
 	i2c.Init.DutyCycle = I2C_DUTYCYCLE_2;
 	i2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
 	i2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -77,23 +79,13 @@ void I2C_Clear_Busy_Flag(void) {
 
 }
 
-uint8_t I2C_Read_Reg(uint8_t reg) {
-
-	uint8_t value = 0;
-
-	HAL_I2C_Mem_Read(&i2c, ACC_GYR_ADDR, reg, 1, &value, sizeof(value), 1000);
-
-	return value;
-
-}
-
 void Acc_Gyr_Config(uint8_t acc_value, uint8_t gyr_value) {
 	HAL_StatusTypeDef status;
 	uint8_t set = 0;
 	while (set == 0) {
 		status = HAL_I2C_Mem_Write(&i2c, ACC_GYR_ADDR, CTRL1_XL, 1, &acc_value,
 				sizeof(acc_value), 1000);
-		if (HAL_BUSY == status) {
+ 		if (HAL_BUSY == status) {
 			I2C_Clear_Busy_Flag();
 		} else if (HAL_OK == status) {
 			set = 1;
@@ -133,17 +125,18 @@ void Acc_Gyr_Config(uint8_t acc_value, uint8_t gyr_value) {
 
 void Read_Sensors_Data(void) {
 	HAL_StatusTypeDef status;
+
 	uint8_t sensors_data[DATA_AMOUNT];
 
 	int i = 0;
 	for (i = 0; i < DATA_AMOUNT; i++) {
-		status = HAL_I2C_Mem_Read(&i2c, ACC_GYR_ADDR, (0x22+i), 1, &sensors_data[i], sizeof(sensors_data[i]), 1000);
+		status = HAL_I2C_Mem_Read(&i2c, ACC_GYR_ADDR, (0x22+i), 1, &sensors_data[i], sizeof(sensors_data[i]),100);
 		if (HAL_BUSY == status) {
 			I2C_Clear_Busy_Flag();
 			i--;
 		}
 	}
 	uart = UartInstance();
-	HAL_UART_Transmit(&uart, sensors_data, DATA_AMOUNT, 1000);
+	HAL_UART_Transmit_DMA(&uart, sensors_data, DATA_AMOUNT);
 }
 

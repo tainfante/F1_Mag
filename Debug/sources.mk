@@ -18,5 +18,4 @@ SUBDIRS := \
 HAL_Driver/Src \
 Utilities/STM32F1xx_Nucleo \
 src \
-startup \
 

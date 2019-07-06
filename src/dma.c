@@ -36,14 +36,13 @@ void Dma_Config(void) {
 	__HAL_LINKDMA(&adc, DMA_Handle, dma);
 	__HAL_DMA_ENABLE_IT(&dma, DMA_IT_TC);
 
-	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
 	HAL_ADC_Start_DMA(&adc, (uint32_t*) &adcValue, 2);
 
-	/*
-	uart_dma.Instance=DMA2_Stream6;
-	uart_dma.Init.Channel=DMA_CHANNEL_5;
+
+	uart_dma.Instance=DMA1_Channel2;
 	uart_dma.Init.Direction=DMA_MEMORY_TO_PERIPH;
 	uart_dma.Init.PeriphInc=DMA_PINC_DISABLE;
 	uart_dma.Init.MemInc=DMA_MINC_ENABLE;
@@ -54,7 +53,19 @@ void Dma_Config(void) {
 	HAL_DMA_Init(&uart_dma);
 
 	__HAL_DMA_ENABLE(&uart_dma);
-	*/
+
+	i2c_dma.Instance=DMA1_Channel7;
+	i2c_dma.Init.Direction=DMA_PERIPH_TO_MEMORY;
+	i2c_dma.Init.PeriphInc=DMA_PINC_DISABLE;
+	i2c_dma.Init.MemInc=DMA_MINC_DISABLE;
+	i2c_dma.Init.PeriphDataAlignment=DMA_PDATAALIGN_BYTE;
+	i2c_dma.Init.MemDataAlignment=DMA_MDATAALIGN_BYTE;
+	i2c_dma.Init.Mode=DMA_CIRCULAR;
+	i2c_dma.Init.Priority = DMA_PRIORITY_HIGH;
+	HAL_DMA_Init(&i2c_dma);
+
+	__HAL_DMA_ENABLE(&i2c_dma);
+
 
 }
 
@@ -68,7 +79,7 @@ void sendADCdata(void) {
 
 	uart=UartInstance();
 
-	HAL_UART_Transmit(&uart, ADC1buffer, BUFFER_SIZE,1000);
+	HAL_UART_Transmit_DMA(&uart, ADC1buffer, BUFFER_SIZE);
 }
 
 void DMA1_Channel1_IRQHandler(void){

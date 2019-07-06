@@ -40,7 +40,6 @@
 
 
 void I2C_Config(void);
-uint8_t I2C_Read_Reg(uint8_t reg);
 void Acc_Gyr_Config(uint8_t acc_value, uint8_t gyr_value);
 void Read_Sensors_Data(void);
 void I2C_Clear_Busy_Flag(void);

@@ -18,5 +18,7 @@ GPIO_InitTypeDef gpio_i2c;
 
 void Uart_Config(void);
 UART_HandleTypeDef UartInstance(void);
+void EXTI9_5_IRQHandler(void);
+void EXTI15_10_IRQHandler(void);
 
 #endif /* UART_H_ */

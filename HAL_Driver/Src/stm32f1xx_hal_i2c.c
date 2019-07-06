@@ -2572,6 +2572,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c, uint16_t DevAddress
   */
 HAL_StatusTypeDef HAL_I2C_Mem_Read(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t *pData, uint16_t Size, uint32_t Timeout)
 {
+	uint16_t status_reg;
   uint32_t tickstart = 0x00U;
 
   /* Init tickstart for timeout management*/
@@ -2688,8 +2689,10 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read(I2C_HandleTypeDef *hi2c, uint16_t DevAddress,
         /* One byte */
         if(hi2c->XferSize== 1U)
         {
+        	status_reg=hi2c->Instance->SR1;
+        	__NOP();
           /* Wait until RXNE flag is set */
-          if(I2C_WaitOnRXNEFlagUntilTimeout(hi2c, Timeout, tickstart) != HAL_OK)      
+          if(I2C_WaitOnRXNEFlagUntilTimeout(hi2c, Timeout, tickstart) != HAL_OK)
           {
             if(hi2c->ErrorCode == HAL_I2C_ERROR_TIMEOUT)
             {

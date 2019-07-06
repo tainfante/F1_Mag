@@ -50,7 +50,8 @@ src/uart.o: ../src/uart.c C:/Users/Agata/workspace/F1_Mag/inc/uart.h \
  C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_ll_usb.h \
  C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
  C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_hcd.h \
- C:/Users/Agata/workspace/F1_Mag/Utilities/STM32F1xx_Nucleo/stm32f1xx_nucleo.h
+ C:/Users/Agata/workspace/F1_Mag/Utilities/STM32F1xx_Nucleo/stm32f1xx_nucleo.h \
+ C:/Users/Agata/workspace/F1_Mag/inc/dma.h
 
 C:/Users/Agata/workspace/F1_Mag/inc/uart.h:
 
@@ -157,3 +158,5 @@ C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h:
 C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_hcd.h:
 
 C:/Users/Agata/workspace/F1_Mag/Utilities/STM32F1xx_Nucleo/stm32f1xx_nucleo.h:
+
+C:/Users/Agata/workspace/F1_Mag/inc/dma.h:

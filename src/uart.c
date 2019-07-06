@@ -6,6 +6,7 @@
  */
 
 #include "uart.h"
+#include "dma.h"
 
 void Uart_Config(void){
 
@@ -65,7 +66,7 @@ void Uart_Config(void){
 		HAL_GPIO_Init(GPIOA, &gpio_adc);
 
 		UartHandle.Instance = USART3;
-		//UartHandle.hdmatx= &uart_dma;
+		UartHandle.hdmatx= &uart_dma;
 		UartHandle.Init.BaudRate = 460800;
 		UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
 		UartHandle.Init.StopBits = UART_STOPBITS_1;
@@ -74,10 +75,10 @@ void Uart_Config(void){
 		UartHandle.Init.Mode = UART_MODE_TX_RX;
 		HAL_UART_Init(&UartHandle);
 
-		HAL_NVIC_SetPriority(EXTI15_10_IRQn, 1, 0);
+		HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
 		HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-		HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1, 0);
+		HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
 		HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 }
 
