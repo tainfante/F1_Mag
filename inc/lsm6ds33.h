@@ -1,16 +1,12 @@
 /*
- * i2c.h
+ * lsm6ds33.h
  *
- *  Created on: 27.06.2019
+ *  Created on: 06.07.2019
  *      Author: Agata
  */
 
-#ifndef I2C_H_
-#define I2C_H_
-
-#include "stm32f1xx.h"
-#include "stm32f1xx_nucleo.h"
-#include "uart.h"
+#ifndef LSM6DS33_H_
+#define LSM6DS33_H_
 
 #define ACC_GYR_ADDR 0xd6
 
@@ -36,12 +32,4 @@
 #define INT1_CTRL 0x0d
 #define INT2_CTRL 0x0e
 
-#define DATA_AMOUNT 12
-
-
-void I2C_Config(void);
-void Acc_Gyr_Config(uint8_t acc_value, uint8_t gyr_value);
-void Read_Sensors_Data(void);
-void I2C_Clear_Busy_Flag(void);
-
-#endif /* I2C_H_ */
+#endif /* LSM6DS33_H_ */

@@ -19,6 +19,8 @@ UART_HandleTypeDef uart;
 uint16_t adcValue[2];
 uint8_t ADC1buffer[BUFFER_SIZE];
 
+volatile uint8_t dma_transfer_complete = 0;
+
 void Dma_Config(void) {
 
 	__HAL_RCC_DMA1_CLK_ENABLE();
@@ -36,7 +38,7 @@ void Dma_Config(void) {
 	__HAL_LINKDMA(&adc, DMA_Handle, dma);
 	__HAL_DMA_ENABLE_IT(&dma, DMA_IT_TC);
 
-	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
+	HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
 	HAL_ADC_Start_DMA(&adc, (uint32_t*) &adcValue, 2);
@@ -71,6 +73,8 @@ void Dma_Config(void) {
 
 void sendADCdata(void) {
 
+	uint8_t ADC1buffer[BUFFER_SIZE];
+
 	ADC1buffer[0] = (uint8_t) (ADC_DATA_BYTE);
 	ADC1buffer[1] = (uint8_t) (adcValue[0] >> 8);
 	ADC1buffer[2] = (uint8_t) (adcValue[0]);
@@ -79,7 +83,8 @@ void sendADCdata(void) {
 
 	uart=UartInstance();
 
-	HAL_UART_Transmit_DMA(&uart, ADC1buffer, BUFFER_SIZE);
+	HAL_UART_Transmit(&uart, ADC1buffer, BUFFER_SIZE,1000);
+
 }
 
 void DMA1_Channel1_IRQHandler(void){

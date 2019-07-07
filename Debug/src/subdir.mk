@@ -9,9 +9,9 @@ S_SRCS += \
 C_SRCS += \
 ../src/adc.c \
 ../src/dma.c \
-../src/i2c.c \
 ../src/init.c \
 ../src/main.c \
+../src/spi.c \
 ../src/stm32f1xx_it.c \
 ../src/syscalls.c \
 ../src/system_stm32f1xx.c \
@@ -21,9 +21,9 @@ C_SRCS += \
 OBJS += \
 ./src/adc.o \
 ./src/dma.o \
-./src/i2c.o \
 ./src/init.o \
 ./src/main.o \
+./src/spi.o \
 ./src/startup_stm32f103xb.o \
 ./src/stm32f1xx_it.o \
 ./src/syscalls.o \
@@ -34,9 +34,9 @@ OBJS += \
 C_DEPS += \
 ./src/adc.d \
 ./src/dma.d \
-./src/i2c.d \
 ./src/init.d \
 ./src/main.d \
+./src/spi.d \
 ./src/stm32f1xx_it.d \
 ./src/syscalls.d \
 ./src/system_stm32f1xx.d \
