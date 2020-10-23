@@ -6,15 +6,17 @@
  */
 
 #include "spi.h"
+#include "logger.h"
 
 SPI_HandleTypeDef spi;
 UART_HandleTypeDef uart;
 uint8_t acc_en = 1;
 uint8_t gyr_en = 2;
-uint8_t acc_value = 0x58;
-uint8_t gyr_value = 0x58;
+uint8_t acc_value = 0x22;
+uint8_t gyr_value = 0x20;
 
 uint8_t buffer_to_send[2];
+uint8_t acc_data_to_send[27];
 
 void Spi_Config(void) {
 
@@ -62,12 +64,10 @@ uint8_t CheckRegisters(uint8_t reg){
 }
 
 void Acc_Gyr_Config(void) {
-
-	SpiWriteData(INT1_CTRL, acc_en);
-	SpiWriteData(INT2_CTRL, gyr_en);
 	SpiWriteData(CTRL1_XL, acc_value);
 	SpiWriteData(CTRL2_G, gyr_value);
-
+	SpiWriteData(INT1_CTRL, acc_en);
+	SpiWriteData(INT2_CTRL, gyr_en);
 }
 
 void SpiWriteData(uint8_t reg, uint8_t data){
@@ -98,16 +98,62 @@ void PrepareBufferToSend(uint8_t reg, uint8_t data) {
 
 }
 
+/*uint8_t IsDataReady(void){
+
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(&spi, txBuf, rxBuf, 2, 1000);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+	return 0;
+}*/
+
+uint8_t CodeData(uint8_t *buffer){
+
+	uint8_t size=15;
+	acc_data_to_send[0]=START_BYTE;
+	acc_data_to_send[1]=15;
+	uint8_t k = 0;
+
+	for(int i=0; i<12; i++){
+		if((buffer[i]!=CHANGE_BYTE) && (buffer[i]!=STOP_BYTE) && (buffer[i]!=START_BYTE)){
+			acc_data_to_send[2+i+k]=buffer[i];
+		}
+		else{
+			acc_data_to_send[2+i+k]=CHANGE_BYTE;
+			k++;
+			size++;
+			acc_data_to_send[2+i+k]= ~buffer[i];
+
+		}
+		if(i==11){
+				acc_data_to_send[2+i+k+1]=STOP_BYTE;
+			}
+	}
+	return size;
+}
+
 void Read_Sensors_Data(void) {
 
 	uint8_t sensors_data[DATA_AMOUNT];
+	uint16_t sensors_data_16[6];
+	uint8_t size_of_data_to_send;
 
-	int i = 0;
-	for (i = 0; i < DATA_AMOUNT; i++) {
-		sensors_data[i] = SpiReadData(0x22+i);
-	}
+	sensors_data[0] = SpiReadData(0x29);
+	sensors_data[1] = SpiReadData(0x28);
+	sensors_data[2] = SpiReadData(0x2b);
+	sensors_data[3] = SpiReadData(0x2a);
+	sensors_data[4] = SpiReadData(0x2d);
+	sensors_data[5] = SpiReadData(0x2c);
+	sensors_data[6] = SpiReadData(0x23);
+	sensors_data[7] = SpiReadData(0x22);
+	sensors_data[8] = SpiReadData(0x25);
+	sensors_data[9] = SpiReadData(0x24);
+	sensors_data[10] = SpiReadData(0x27);
+	sensors_data[11] = SpiReadData(0x26);
+
+	size_of_data_to_send=CodeData(sensors_data);
 
 	uart = UartInstance();
-	HAL_UART_Transmit(&uart, sensors_data, DATA_AMOUNT,1000);
+	HAL_UART_Transmit(&uart, acc_data_to_send, size_of_data_to_send,1000);
+
 }
 

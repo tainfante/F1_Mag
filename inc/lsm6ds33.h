@@ -12,6 +12,8 @@
 
 #define CTRL1_XL 0x10
 #define CTRL2_G 0x11
+#define CTRL3_C 0x12
+#define STATUS_REG 0x1e
 
 //gyroscope registers addresses
 #define OUTX_L_G 0x22

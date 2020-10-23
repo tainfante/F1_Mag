@@ -12,6 +12,7 @@
 #include "stm32f1xx_nucleo.h"
 #include "uart.h"
 #include "lsm6ds33.h"
+#include "logger.h"
 
 #define DATA_AMOUNT 12
 

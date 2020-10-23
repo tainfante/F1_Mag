@@ -10,7 +10,7 @@
 #include "uart.h"
 
 #define ADC_DATA_BYTE 13
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 4
 
 DMA_HandleTypeDef dma;
 
@@ -18,6 +18,7 @@ UART_HandleTypeDef uart;
 
 uint16_t adcValue[2];
 uint8_t ADC1buffer[BUFFER_SIZE];
+uint8_t adc_data_to_send[11];
 
 volatile uint8_t dma_transfer_complete = 0;
 
@@ -71,19 +72,46 @@ void Dma_Config(void) {
 
 }
 
+uint8_t CodeAdcData(uint8_t *buffer){
+
+	uint8_t size=7;
+	adc_data_to_send[0]=START_BYTE;
+	adc_data_to_send[1]=13;
+	uint8_t k = 0;
+
+	for(int i=0; i<4; i++){
+		if((buffer[i]!=CHANGE_BYTE) && (buffer[i]!=STOP_BYTE) && (buffer[i]!=START_BYTE)){
+			adc_data_to_send[2+i+k]=buffer[i];
+		}
+		else{
+			adc_data_to_send[2+i+k]=CHANGE_BYTE;
+			k++;
+			size++;
+			adc_data_to_send[2+i+k]= ~buffer[i];
+
+		}
+		if(i==3){
+				adc_data_to_send[2+i+k+1]=STOP_BYTE;
+			}
+	}
+	return size;
+}
+
 void sendADCdata(void) {
 
 	uint8_t ADC1buffer[BUFFER_SIZE];
+	uint8_t adc_frame_size;
 
-	ADC1buffer[0] = (uint8_t) (ADC_DATA_BYTE);
-	ADC1buffer[1] = (uint8_t) (adcValue[0] >> 8);
-	ADC1buffer[2] = (uint8_t) (adcValue[0]);
-	ADC1buffer[3] = (uint8_t) (adcValue[1] >> 8);
-	ADC1buffer[4] = (uint8_t) (adcValue[1]);
+	ADC1buffer[0] = (uint8_t) (adcValue[0] >> 8);
+	ADC1buffer[1] = (uint8_t) (adcValue[0]);
+	ADC1buffer[2] = (uint8_t) (adcValue[1] >> 8);
+	ADC1buffer[3] = (uint8_t) (adcValue[1]);
+
+	adc_frame_size=CodeAdcData(ADC1buffer);
 
 	uart=UartInstance();
 
-	HAL_UART_Transmit(&uart, ADC1buffer, BUFFER_SIZE,1000);
+	HAL_UART_Transmit(&uart, adc_data_to_send, adc_frame_size, 1000);
 
 }
 

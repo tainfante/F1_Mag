@@ -61,6 +61,7 @@
 "src/adc.o"
 "src/dma.o"
 "src/init.o"
+"src/logger.o"
 "src/main.o"
 "src/spi.o"
 "src/startup_stm32f103xb.o"

@@ -10,6 +10,7 @@ C_SRCS += \
 ../src/adc.c \
 ../src/dma.c \
 ../src/init.c \
+../src/logger.c \
 ../src/main.c \
 ../src/spi.c \
 ../src/stm32f1xx_it.c \
@@ -22,6 +23,7 @@ OBJS += \
 ./src/adc.o \
 ./src/dma.o \
 ./src/init.o \
+./src/logger.o \
 ./src/main.o \
 ./src/spi.o \
 ./src/startup_stm32f103xb.o \
@@ -35,6 +37,7 @@ C_DEPS += \
 ./src/adc.d \
 ./src/dma.d \
 ./src/init.d \
+./src/logger.d \
 ./src/main.d \
 ./src/spi.d \
 ./src/stm32f1xx_it.d \

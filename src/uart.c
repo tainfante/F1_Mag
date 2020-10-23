@@ -21,13 +21,13 @@ void Uart_Config(void) {
 	GPIO_InitTypeDef gpio;
 	GPIO_InitTypeDef gpio_adc;
 
-	//External interrupts from I2C - INT1
+	//External interrupts from SPI - INT1
 	gpio.Mode = GPIO_MODE_IT_RISING;
 	gpio.Pin = GPIO_PIN_8;
 	gpio.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOA, &gpio);
 
-	//External interrupts from I2C - INT2
+	//External interrupts from SPI - INT2
 	gpio.Mode = GPIO_MODE_IT_RISING;
 	gpio.Pin = GPIO_PIN_10;
 	gpio.Pull = GPIO_NOPULL;
@@ -37,13 +37,12 @@ void Uart_Config(void) {
 	gpio.Mode = GPIO_MODE_AF_PP;
 	gpio.Pin = GPIO_PIN_5 | GPIO_PIN_7; // SCK, MOSI
 	gpio.Pull = GPIO_PULLUP;
-	gpio.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	gpio.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(GPIOA, &gpio);
 
 	gpio.Mode = GPIO_MODE_AF_INPUT;
 	gpio.Pin = GPIO_PIN_6; // MISO
-	gpio.Pull = GPIO_PULLUP;
-	gpio.Speed = GPIO_SPEED_FREQ_MEDIUM;
+	gpio.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(GPIOA, &gpio);
 
 	gpio.Mode = GPIO_MODE_OUTPUT_PP;
@@ -59,12 +58,6 @@ void Uart_Config(void) {
 	gpio.Pull = GPIO_PULLUP;
 	gpio.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOB, &gpio);
-
-	//Usart Rx pin
-	gpio.Mode = GPIO_MODE_AF_PP;
-	gpio.Pin = GPIO_PIN_3;
-	gpio.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(GPIOA, &gpio);
 
 	//Data sending frequency check
 	gpio.Mode = GPIO_MODE_OUTPUT_PP;

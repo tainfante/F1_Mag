@@ -59,7 +59,9 @@ src/main.o: ../src/main.c \
  C:/Users/Agata/workspace/F1_Mag/inc/spi.h \
  C:/Users/Agata/workspace/F1_Mag/inc/uart.h \
  C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h \
- C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h
+ C:/Users/Agata/workspace/F1_Mag/inc/logger.h \
+ C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h \
+ C:/Users/Agata/workspace/F1_Mag/inc/logger.h
 
 C:/Users/Agata/workspace/F1_Mag/CMSIS/device/stm32f1xx.h:
 
@@ -181,4 +183,8 @@ C:/Users/Agata/workspace/F1_Mag/inc/uart.h:
 
 C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h:
 
+C:/Users/Agata/workspace/F1_Mag/inc/logger.h:
+
 C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h:
+
+C:/Users/Agata/workspace/F1_Mag/inc/logger.h:

@@ -1,4 +1,5 @@
-src/spi.o: ../src/spi.c C:/Users/Agata/workspace/F1_Mag/inc/spi.h \
+src/logger.o: ../src/logger.c \
+ C:/Users/Agata/workspace/F1_Mag/inc/logger.h \
  C:/Users/Agata/workspace/F1_Mag/CMSIS/device/stm32f1xx.h \
  C:/Users/Agata/workspace/F1_Mag/CMSIS/device/stm32f103xb.h \
  C:/Users/Agata/workspace/F1_Mag/CMSIS/core/core_cm3.h \
@@ -51,12 +52,9 @@ src/spi.o: ../src/spi.c C:/Users/Agata/workspace/F1_Mag/inc/spi.h \
  C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
  C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_hcd.h \
  C:/Users/Agata/workspace/F1_Mag/Utilities/STM32F1xx_Nucleo/stm32f1xx_nucleo.h \
- C:/Users/Agata/workspace/F1_Mag/inc/uart.h \
- C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h \
- C:/Users/Agata/workspace/F1_Mag/inc/logger.h \
- C:/Users/Agata/workspace/F1_Mag/inc/logger.h
+ C:/Users/Agata/workspace/F1_Mag/inc/uart.h
 
-C:/Users/Agata/workspace/F1_Mag/inc/spi.h:
+C:/Users/Agata/workspace/F1_Mag/inc/logger.h:
 
 C:/Users/Agata/workspace/F1_Mag/CMSIS/device/stm32f1xx.h:
 
@@ -163,9 +161,3 @@ C:/Users/Agata/workspace/F1_Mag/HAL_Driver/Inc/stm32f1xx_hal_hcd.h:
 C:/Users/Agata/workspace/F1_Mag/Utilities/STM32F1xx_Nucleo/stm32f1xx_nucleo.h:
 
 C:/Users/Agata/workspace/F1_Mag/inc/uart.h:
-
-C:/Users/Agata/workspace/F1_Mag/inc/lsm6ds33.h:
-
-C:/Users/Agata/workspace/F1_Mag/inc/logger.h:
-
-C:/Users/Agata/workspace/F1_Mag/inc/logger.h:
